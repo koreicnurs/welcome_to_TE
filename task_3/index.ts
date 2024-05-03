@@ -1,6 +1,6 @@
 interface BallonI {
-    id: number
-    isPublic: boolean
+	id: number
+	isPublic: boolean
 }
 
 /**
@@ -45,3 +45,28 @@ const BALLONS: { [key: string]: BallonI } = {
 };
 
 // Ваш код здесь
+async function getTotalPublicBallonsAmount(): Promise<number> {
+	let totalAmount = 0;
+
+	// Проходимся по каждому шарику в объекте BALLONS
+	for (const color in BALLONS) {
+		const ballon = BALLONS[color];
+
+		// Проверяем, является ли шарик общедоступным (isPublic === true)
+		if (ballon.isPublic) {
+			// Вызываем fetchBallonAmount для получения количества шариков определенного цвета
+			const amount = await fetchBallonAmount(ballon.id);
+			// Суммируем количество шариков
+			totalAmount += amount;
+		}
+	}
+
+	return totalAmount;
+}
+
+// Вызываем функцию и выводим результат
+getTotalPublicBallonsAmount().then(total => {
+	console.log('Total number of public ballons:', total);
+}).catch(err => {
+	console.error('Error:', err);
+});

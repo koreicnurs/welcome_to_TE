@@ -1,7 +1,7 @@
-import { Fragment, memo } from 'react';
+import { Fragment, memo, useCallback } from 'react';
 
 const MainComponent = () => {
-    const makeLog = () => console.log('hi from MainComponent'); // function to make logs from MainComponent
+    const makeLog = useCallback(() => console.log('hi from MainComponent'), []); // мемоизированная функция
 
     return (
         <Fragment>
@@ -14,3 +14,5 @@ const MainComponent = () => {
 const ChildComponent = memo(({ makeLog }) => (
     <button onClick={makeLog}>say Hi from ChildComponent</button>
 ));
+
+export default MainComponent;
